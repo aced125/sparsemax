@@ -47,6 +47,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/aced125/sparsemax",
-    version="version='0.1.7'",
+    version="version='0.1.8'",
     zip_safe=False,
 )
