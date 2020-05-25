@@ -3,22 +3,20 @@
 """Tests for `sparsemax` package."""
 
 import pytest
+from sparsemax import Sparsemax
+from torch.autograd import gradcheck
+import torch
 
 
-from sparsemax import sparsemax
+@pytest.mark.parametrize("dimension", [-4, -3, -2, -1, 0, 1, 2, 3])
+def test_sparsemax(dimension):
+    sparsemax = Sparsemax(dimension)
+    input = torch.randn(6, 3, 5, 4, dtype=torch.double, requires_grad=True)
+    assert gradcheck(sparsemax, input, eps=1e-6, atol=1e-4)
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
-
-
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+def test_sparsemax_invalid_dimension():
+    sparsemax = Sparsemax(-7)
+    input = torch.randn(6, 3, 5, 4, dtype=torch.double, requires_grad=True)
+    with pytest.raises(IndexError):
+        gradcheck(sparsemax, input, eps=1e-6, atol=1e-4)
