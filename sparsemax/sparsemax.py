@@ -6,7 +6,13 @@ from sparsemax.utils import flatten_all_but_nth_dim, unflatten_all_but_nth_dim
 class Sparsemax(nn.Module):
     __constants__ = ["dim"]
 
-    def __init__(self, dim=None):
+    def __init__(self, dim=-1):
+        """
+        Sparsemax class as seen in https://arxiv.org/pdf/1602.02068.pdf
+        Parameters
+        ----------
+        dim: The dimension we want to cast the operation over. Default -1
+        """
         super(Sparsemax, self).__init__()
         self.dim = dim
 
@@ -32,7 +38,7 @@ class SparsemaxFunction(torch.autograd.Function):
             )
 
         # Save operating dimension to context
-        ctx.needs_reshaping = input.dim() > 2
+        ctx.needs_reshaping = input_dim > 2
         ctx.dim = dim
 
         if ctx.needs_reshaping:
@@ -42,8 +48,8 @@ class SparsemaxFunction(torch.autograd.Function):
         input = input - input.max(-1, keepdim=True).values.expand_as(input)
 
         zs = input.sort(-1, descending=True).values
-        range = torch.arange(1, input.size()[-1] + 1).view(1, -1).to(input)
-        range = range.expand_as(input)
+        range = torch.arange(1, input.size()[-1] + 1).view(1, -1)
+        range = range.expand_as(input).to(input)
 
         # Determine sparsity of projection
         bound = 1 + range * zs

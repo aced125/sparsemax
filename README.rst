@@ -22,10 +22,9 @@ sparsemax
 
 A PyTorch implementation of SparseMax (https://arxiv.org/pdf/1602.02068.pdf) with gradients checked and tested
 
-
-* Free software: MIT license
-* Documentation: https://sparsemax.readthedocs.io.
-
+Sparsemax is an alternative to softmax when one wants to generate
+hard probability distributions. It has been used to great effect in recent papers like
+ProtoAttend (https://arxiv.org/pdf/1902.06292v4.pdf).
 
 Installation
 ------------
@@ -61,6 +60,18 @@ Use as if it was :code:`nn.Softmax()`! Nice and simple.
     sparsemax_probs = sparsemax(logits)
     print("\nSparsemax probabilities")
     print(sparsemax_probs)
+
+
+Advantages over existing implementations
+----------------------------------------
+This repo borrows heavily from: https://github.com/KrisKorrel/sparsemax-pytorch
+
+However, there are a few key advantages:
+
+1. Backward pass equations implemented natively as a :code:`torch.autograd.Function`, **resulting in 30% speedup**, compared to the above repository.
+2. The package is **easily pip-installable** (no need to copy the code).
+3. The package works for **multi-dimensional tensors, operating over any axis**.
+4. The operator **forward and backward passes are tested** (backward-pass check due to :code:`torch.autograd.gradcheck`
 
 
 Check that gradients are computed correctly
