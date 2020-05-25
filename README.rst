@@ -18,6 +18,9 @@ sparsemax
      :target: https://pyup.io/repos/github/aced125/sparsemax/
      :alt: Updates
 
+.. image:: coverage.svg
+
+
 
 
 A PyTorch implementation of SparseMax (https://arxiv.org/pdf/1602.02068.pdf) with gradients checked and tested
