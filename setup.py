@@ -20,6 +20,7 @@ test_requirements = [
     "pytest>=3",
 ]
 
+# fmt: off
 setup(
     author="Laksh Aithani",
     author_email="lakshaithanii@gmail.com",
@@ -47,6 +48,7 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/aced125/sparsemax",
-    version="version='0.1.8'",
+    version='0.1.8',
     zip_safe=False,
 )
+# fmt: on
