@@ -48,7 +48,7 @@ class SparsemaxFunction(torch.autograd.Function):
         input = input - input.max(-1, keepdim=True).values.expand_as(input)
 
         zs = input.sort(-1, descending=True).values
-        range = torch.arange(1, input.size()[-1] + 1).view(1, -1)
+        range = torch.arange(1, input.size()[-1] + 1)
         range = range.expand_as(input).to(input)
 
         # Determine sparsity of projection
